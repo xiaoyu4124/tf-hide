@@ -1,0 +1,25 @@
+name: import-windows-script
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-windows-script.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch script
+        run: curl -fsSL -o tf_hide.py "https://aka.doubaocdn.com/s/6fp1XOYAJm"
+      - name: Commit
+        run: |
+          git config user.name "xiaoyu4124"
+          git config user.email "xiaoyu4124@users.noreply.github.com"
+          sha256sum tf_hide.py
+          git add tf_hide.py
+          git commit -m "feat: 加入 Windows 侧脚本（本次由工作流导入）" || true
+          git push
